@@ -1,1 +1,1 @@
-# powershell
+Powershell script repository
