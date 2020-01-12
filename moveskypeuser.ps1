@@ -1,7 +1,7 @@
 ﻿#Script to Move skype user to target pool 
 #Author :  Alif Amzari Mohd Azamee
 
-$File = "C:\00Files\users.csv"
+$File = "$env:USERPROFILE\Desktop\user.csv"
 $UserArray = Import-CSV -Path $File
 $targetpool = targetpool.domain.com
 
