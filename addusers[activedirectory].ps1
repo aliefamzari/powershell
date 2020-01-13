@@ -1,4 +1,6 @@
-﻿# Import active directory module for running AD CMDlet
+﻿# Author: Alif Amzari Mohd Azamee
+# Environment : Lab 
+# Import active directory module for running AD CMDlet
 Import-Module ActiveDirectory
 
 # Prompt user for CSV absolute path
