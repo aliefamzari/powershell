@@ -7,7 +7,7 @@ $targetpool = targetpool.domain.com
 
 Foreach ($user in $UserArray){    
 
-    $thecurrentuser = $($user.DisplayName)
+    $thecurrentuser = $($user.SamAccountName)
     $currentuserpool = Get-CSuser $thecurrentuser | Select-Object RegistrarPool
 
     #Intitializing Current user
