@@ -1,4 +1,4 @@
-﻿#Script to Move skype user to target pool 
+﻿# Script to Move skype user to target pool 
 #Author :  Alif Amzari Mohd Azamee
 
 $File = "$env:USERPROFILE\Desktop\user.csv"
@@ -8,7 +8,7 @@ $targetpool = targetpool.domain.com
 Foreach ($user in $UserArray){    
 
     $thecurrentuser = $($user.DisplayName)
-    $currentuserpool = Get-CSuser $thecurrentuser | select RegistrarPool
+    $currentuserpool = Get-CSuser $thecurrentuser | Select-Object RegistrarPool
 
     #Intitializing Current user
     write-host "will use the following user now: $thecurrentuser"
