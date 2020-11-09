@@ -5,18 +5,19 @@ $SourcePath = "$env:USERPROFILE\Downloads"
 # test-path $SourcePath
 $DestinationPath = "F:\Downloads"
 
-$videos = Get-ChildItem $SourcePath\* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg 
-$audio = Get-ChildItem $SourcePath\* -Include *.aac, *.mp3, *.flac, *.m4a, *.ogg, *.alac, *.wav, *.wma
-$programs = Get-ChildItem $SourcePath\* -Include *.exe, *.msi
-$zipped = Get-ChildItem $SourcePath\* -Include *.zip, *.rar, *.7z
-$documents = Get-ChildItem $SourcePath\* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt
+$videos = Get-ChildItem -Recurse $SourcePath\* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg 
+$audio = Get-ChildItem -Recurse $SourcePath\* -Include *.aac, *.mp3, *.flac, *.m4a, *.ogg, *.alac, *.wav, *.wma
+$programs = Get-ChildItem -Recurse $SourcePath\* -Include *.exe, *.msi
+$zipped = Get-ChildItem -Recurse $SourcePath\* -Include *.zip, *.rar, *.7z
+$documents = Get-ChildItem -Recurse $SourcePath\* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt
 
-$totalfilecount = $audio.count + $videos.count + $zipped.Count + $documents.Count
+$totalfilecount = $audio.count + $videos.count + $zipped.Count + $documents.Count + $programs.count
 $totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($audio | Measure-Object -sum length).Sum)/1gb + `
                 (($programs | Measure-Object -sum length).Sum)/1gb + `
                 (($zipped | Measure-Object -sum length).Sum)/1gb + `
-                (($documents | Measure-Object -sum length).Sum)/1gb
+                (($documents | Measure-Object -sum length).Sum)/1gb +`
+                (($videos | Measure-Object -sum Length).Sum)/1gb
 
 $totalgb = [math]::Round($totalfilesize,2)
 
