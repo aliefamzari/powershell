@@ -1,5 +1,5 @@
 #load notification function
-. "C:\Users\Alif\Nextcloud\Documents\Powershell\Practise\function_notification.ps1" 
+. ".\function_notification.ps1" 
 
 $SourcePath = "$env:USERPROFILE\Downloads"
 # test-path $SourcePath
@@ -12,11 +12,16 @@ $zipped = Get-ChildItem $SourcePath\* -Include *.zip, *.rar, *.7z
 $documents = Get-ChildItem $SourcePath\* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt
 
 $totalfilecount = $audio.count + $videos.count + $zipped.Count + $documents.Count
-$totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + (($audio | Measure-Object -sum length).Sum)/1gb + (($programs | Measure-Object -sum length).Sum)/1gb + (($zipped | Measure-Object -sum length).Sum)/1gb + (($documents | Measure-Object -sum length).Sum)/1gb
+$totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
+                (($audio | Measure-Object -sum length).Sum)/1gb + `
+                (($programs | Measure-Object -sum length).Sum)/1gb + `
+                (($zipped | Measure-Object -sum length).Sum)/1gb + `
+                (($documents | Measure-Object -sum length).Sum)/1gb
+
 $totalgb = [math]::Round($totalfilesize,2)
 
-
- Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 'Downloads' folder `n($totalfilecount files, $totalgb GB)"
+#Popup Windows 10 notifaction
+Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 'Downloads' folder `n($totalfilecount files, $totalgb GB)"
 
 # if(!(Test-Path "$DestinationPath\videos")) {
 #     New-Item -ItemType Directory "$destinationPath\videos"
