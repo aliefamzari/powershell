@@ -62,5 +62,3 @@ switch ($UserInput) {
         Show-Notification -ToastTitle "Spring Cleaning Cancelled" -ToastText "No files were moved"
         }
 }
-
-
