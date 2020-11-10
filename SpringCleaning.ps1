@@ -1,19 +1,21 @@
-# Spring cleaning download and maybe your desktop folder.  Files will be moved to your backup drive etc.  
+# <Spring cleaning download and maybe your desktop folder.  Files will be moved to your backup drive etc.  
 # Author : Alif Amzari Mohd Azamee
-# Date: 2020-11-10
-
-#load notification function
+# >Date: 2020-11-10
+#Start-Transcript
+#Sourcing some functoin
 . ".\function_notification.ps1" 
 
-$ErrorActionPreference = SilentlyContinue
+$ErrorActionPreference = "SilentlyContinue"
 
 #Source and destination path
 $SourcePath = "$env:USERPROFILE\Downloads\"
 # test-path $SourcePath
 $DestinationPath = "F:\Downloads\"
 
-# Catching files based on types to be move
-$videos = Get-ChildItem -Recurse $SourcePath* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg #| ForEach-Object {$_.FullName.Replace($SourcePath, "")}
+#Todo stuff - logfile
+
+<# Catching files based on types to be move#>
+$videos = Get-ChildItem -Recurse $SourcePath* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg #| ForEach-Object {$_.FullName.Replace($SourcePath, "")} >> $logfile
 $audio = Get-ChildItem -Recurse $SourcePath* -Include *.aac, *.mp3, *.flac, *.m4a, *.ogg, *.alac, *.wav, *.wma
 $programs = Get-ChildItem -Recurse $SourcePath* -Include *.exe, *.msi
 $zipped = Get-ChildItem -Recurse $SourcePath* -Include *.zip, *.rar, *.7z
@@ -21,8 +23,8 @@ $documents = Get-ChildItem -Recurse $SourcePath* -Include *.pdf, *.doc, *.docx, 
 
 
 #Doing some math stuff
-$filetypecount = Get-ChildItem -file -Recurse $SourcePath* |ForEach-Object {$_.Name.Split('.')[-1]} |Group-Object |Select-Object Name, count |Sort-Object count -Descending
-$totalfilecount = $audio.count + $videos.count + $zipped.Count + $documents.Count + $programs.count
+$filetypecount = Get-ChildItem -file -Recurse $SourcePath* |ForEach-Object {$_.Name.Split('.')[-1]} |Group-Object |Select-Object Name, count |Sort-Object count -Descending #>> $logfile
+$totalcatchfiles = $audio.count + $videos.count + $zipped.Count + $documents.Count + $programs.count
 $totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($audio | Measure-Object -sum length).Sum)/1gb + `
                 (($programs | Measure-Object -sum length).Sum)/1gb + `
@@ -31,13 +33,13 @@ $totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($videos | Measure-Object -sum Length).Sum)/1gb
 $totalgb = [math]::Round($totalfilesize,2)
 
-#Popup Windows 10 notification
-Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 'Downloads' folder `n($totalfilecount files, $totalgb GB)"
+#Popup Windows 10 toaster notification
+Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 'Downloads' folder `n($totalcatchfiles files, $totalgb GB)"
 # Start-Sleep 10
 
 #Display form popup for user consent 
 [void][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-$UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move these now? `nFiles:$totalfilecount `nSize:$totalgb GB ","SpringCleaning.ps1",4)
+$UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move these now? `nFiles:$totalcatchfiles `nSize:$totalgb GB ","SpringCleaning.ps1",4)
 
 switch ($UserInput) {
     Yes {
