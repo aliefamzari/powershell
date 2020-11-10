@@ -26,23 +26,41 @@ $totalgb = [math]::Round($totalfilesize,2)
 Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 'Downloads' folder `n($totalfilecount files, $totalgb GB)"
 # Start-Sleep 10
 
-#Display the box
+#Display form popup for user consent 
 [void][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
-
-#Display the message
 $UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move these now? `nFiles:$totalfilecount `nSize:$totalgb GB ","SpringCleaning.ps1",4)
 
 switch ($UserInput) {
     Yes {
-    #   #[WIP]fixing destination path when move, missing original subfolder 
-    # $videos | ForEach-Object {
-    # $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-    # New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
-    # move-item $_.FullName -Destination $newpath
-        }
+            #[WIP]fixing destination path when move, missing original subfolder 
+            $videos | ForEach-Object {
+                $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                move-item -Force $_.FullName -Destination $newpath
+                }
+            $audio | ForEach-Object {
+                $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                move-item -Force $_.FullName -Destination $newpath
+                }
+            $programs | ForEach-Object {
+                $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                move-item -Force $_.FullName -Destination $newpath
+                }
+            $zipped | ForEach-Object {
+                $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                move-item -Force $_.FullName -Destination $newpath
+                }
+            $documents | ForEach-Object {
+                $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                move-item -Force $_.FullName -Destination $newpath
+                }
     No  {
-      Show-Notification -ToastTitle "Spring Cleaning Cancelled" -ToastText "No files were moved"
+        Show-Notification -ToastTitle "Spring Cleaning Cancelled" -ToastText "No files were moved"
         }
-  }
+}
 
 
