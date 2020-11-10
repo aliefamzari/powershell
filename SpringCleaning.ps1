@@ -1,17 +1,27 @@
-# Spring cleaning download folder
+# Spring cleaning download and maybe your desktop folder.  Files will be moved to your backup drive etc.  
+# Author : Alif Amzari Mohd Azamee
+# Date: 2020-11-10
+
 #load notification function
 . ".\function_notification.ps1" 
 
+$ErrorActionPreference = SilentlyContinue
+
+#Source and destination path
 $SourcePath = "$env:USERPROFILE\Downloads\"
 # test-path $SourcePath
 $DestinationPath = "F:\Downloads\"
 
+# Catching files based on types to be move
 $videos = Get-ChildItem -Recurse $SourcePath* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg #| ForEach-Object {$_.FullName.Replace($SourcePath, "")}
 $audio = Get-ChildItem -Recurse $SourcePath* -Include *.aac, *.mp3, *.flac, *.m4a, *.ogg, *.alac, *.wav, *.wma
 $programs = Get-ChildItem -Recurse $SourcePath* -Include *.exe, *.msi
 $zipped = Get-ChildItem -Recurse $SourcePath* -Include *.zip, *.rar, *.7z
 $documents = Get-ChildItem -Recurse $SourcePath* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt
 
+
+#Doing some math stuff
+$filetypecount = Get-ChildItem -file -Recurse $SourcePath* |ForEach-Object {$_.Name.Split('.')[-1]} |Group-Object |Select-Object Name, count |Sort-Object count -Descending
 $totalfilecount = $audio.count + $videos.count + $zipped.Count + $documents.Count + $programs.count
 $totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($audio | Measure-Object -sum length).Sum)/1gb + `
@@ -19,7 +29,6 @@ $totalfilesize = (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($zipped | Measure-Object -sum length).Sum)/1gb + `
                 (($documents | Measure-Object -sum length).Sum)/1gb +`
                 (($videos | Measure-Object -sum Length).Sum)/1gb
-
 $totalgb = [math]::Round($totalfilesize,2)
 
 #Popup Windows 10 notification
@@ -35,30 +44,31 @@ switch ($UserInput) {
             #[WIP]fixing destination path when move, missing original subfolder 
             $videos | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                New-Item $newpath -Type Directory 
                 move-item -Force $_.FullName -Destination $newpath
                 }
             $audio | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                New-Item $newpath -Type Directory 
                 move-item -Force $_.FullName -Destination $newpath
                 }
             $programs | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                New-Item $newpath -Type Directory 
                 move-item -Force $_.FullName -Destination $newpath
                 }
             $zipped | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                New-Item $newpath -Type Directory
                 move-item -Force $_.FullName -Destination $newpath
                 }
             $documents | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
-                New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+                New-Item $newpath -Type Directory 
                 move-item -Force $_.FullName -Destination $newpath
                 }
-    No  {
+    }
+    No {
         Show-Notification -ToastTitle "Spring Cleaning Cancelled" -ToastText "No files were moved"
-        }
+    }
 }
