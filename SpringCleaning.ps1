@@ -30,46 +30,19 @@ Show-Notification -ToastTitle "Spring cleaning started" -ToastText "Cleaning up 
 [void][System.Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
 
 #Display the message
-$UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move these now? `nFiles:$totalfilecount `nSize:$totalgb GB ","SpringCleaning.ps1",3)
+$UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move these now? `nFiles:$totalfilecount `nSize:$totalgb GB ","SpringCleaning.ps1",4)
 
 switch ($UserInput) {
-    Yes{
-      Write-Output "Yerbetull"
-    }No{
-      Write-Output "No"
-    }Cancel{
-    Write-Output "Cancel"
-    }
+    Yes {
+    #   #[WIP]fixing destination path when move, missing original subfolder 
+    # $videos | ForEach-Object {
+    # $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($source.Length)
+    # New-Item $newpath -Type Directory -ErrorAction SilentlyContinue
+    # move-item $_.FullName -Destination $newpath
+        }
+    No  {
+      Show-Notification -ToastTitle "Spring Cleaning Cancelled" -ToastText "No files were moved"
+        }
   }
 
-#[WIP]fixing destination path when move, missing original subfolder 
-$tempfname = $videos | ForEach-Object {$_.FullName.Replace($SourcePath, "")} 
-$fname = Join-Path -Path $DestinationPath -ChildPath $tempfname #throws error because of passing an object instead of string
 
-
-# if(!(Test-Path "$DestinationPath\videos")) {
-#     New-Item -ItemType Directory "$destinationPath\videos"
-# }
-# $videos | Move-Item -Destination "$DestinationPath\videos"
-
-
-# if(!(Test-Path "$DestinationPath\audio")) {
-#     New-Item -ItemType Directory "$destinationPath\audio"
-# }
-# $audio | Move-Item -Destination "$DestinationPath\audio"
-
-
-# if(!(Test-Path "$DestinationPath\programs")) {
-#     New-Item -ItemType Directory "$destinationPath\programs"
-# }
-# $programs | Move-Item -Destination "$DestinationPath\programs"
-
-# if(!(Test-Path "$DestinationPath\zipped")) {
-#     New-Item -ItemType Directory "$destinationPath\zipped"
-# }
-# $zipped | Move-Item -Destination "$DestinationPath\zipped"
-
-# if(!(Test-Path "$DestinationPath\documents")) {
-#     New-Item -ItemType Directory "$destinationPath\documents"
-# }
-# $documents | Move-Item -Destination "$DestinationPath\zipped"
