@@ -1,3 +1,4 @@
+#Original author Ruud https://lazyadmin.nl/it/remove-empty-directories-with-powershell/
 # Set to true to test the script
 $whatIf = $true
 $removeHiddenFiles = $false
