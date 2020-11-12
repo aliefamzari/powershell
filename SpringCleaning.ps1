@@ -27,7 +27,7 @@ $audio = Get-ChildItem -Recurse $SourcePath* -Include *.aac, *.mp3, *.flac, *.m4
 $programs = Get-ChildItem -Recurse $SourcePath* -Include *.exe, *.msi 
 $zipped = Get-ChildItem -Recurse $SourcePath* -Include *.zip, *.rar, *.7z 
 $documents = Get-ChildItem -Recurse $SourcePath* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt, *.pptx 
-$images = Get-ChildItem -Recurse $SourcePath* -Include *.jpg, *.jpeg, *.png, *.webm
+$images = Get-ChildItem -Recurse $SourcePath* -Include *.jpg, *.jpeg, *.png
 
 #Doing some math stuff
 $filetypecount = Get-ChildItem -file -Recurse $SourcePath\* |ForEach-Object {$_.Name.Split('.')[-1]} |Group-Object |Select-Object Name, count |Sort-Object count -Descending 
