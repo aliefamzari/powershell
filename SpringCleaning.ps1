@@ -2,7 +2,7 @@
 # Author : Alif Amzari Mohd Azamee
 # >Date: 2020-11-10
 #Start-Transcript
-#Sourcing some functoin
+#Sourcing some function
 . ".\function_notification.ps1"
 . ".\function_DeleteEmptyFolder.ps1"
 
@@ -22,11 +22,11 @@ Write-output "Spring Cleaning" |Out-File -Append $tlog
 
 
 # Catching files based on types to be move
-$videos = Get-ChildItem -Recurse $SourcePath* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg 
+$videos = Get-ChildItem -Recurse $SourcePath* -Include *.mp4, *.mkv, *.avi, *.mpg, *.mpeg, *.flv
 $audio = Get-ChildItem -Recurse $SourcePath* -Include *.aac, *.mp3, *.flac, *.m4a, *.ogg, *.alac, *.wav, *.wma 
 $programs = Get-ChildItem -Recurse $SourcePath* -Include *.exe, *.msi 
 $zipped = Get-ChildItem -Recurse $SourcePath* -Include *.zip, *.rar, *.7z 
-$documents = Get-ChildItem -Recurse $SourcePath* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt 
+$documents = Get-ChildItem -Recurse $SourcePath* -Include *.pdf, *.doc, *.docx, *.xls, *.xlsx, *.odt, *.pptx 
 $images = Get-ChildItem -Recurse $SourcePath* -Include *.jpg, *.jpeg, *.png, *.webm
 
 #Doing some math stuff
@@ -62,7 +62,6 @@ $UserInput = [System.windows.Forms.Messagebox]::Show("Would you like to move the
 #Doing the actual move. Serious stuff going on. 
 switch ($UserInput) {
     Yes {
-            #[WIP]fixing destination path when move, missing original subfolder 
             $videos | ForEach-Object {
                 $newpath = Join-Path $DestinationPath $_.DirectoryName.Substring($SourcePath.Length)
                 New-Item $newpath -Type Directory 
