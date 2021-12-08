@@ -32,13 +32,14 @@ if ($challenge -eq "N"){
 
 elseif ($challenge -eq "Y"){
     
-    ##############################
-    ##############################
-    ##### Cache Clear Script #####
-    #####  By XSIOL & TOBKO  #####
-    ##############################
-    ##############################
-    
+##############################
+##############################
+##### Cache Clear Script #####
+#####  By XSIOL & TOBKO  #####
+##############################
+##############################
+ 
+# Chrome    
     Write-Host "Stopping Chrome Process" -ForegroundColor Yellow
 
     try{
@@ -63,7 +64,7 @@ elseif ($challenge -eq "Y"){
     catch{
         echo $_
     }
-    
+ #Edge
     Write-Host "Stopping IE & Edge Process" -ForegroundColor Yellow
     
     try{
@@ -89,7 +90,7 @@ elseif ($challenge -eq "Y"){
     catch{
         echo $_
     }
-
+#Firefox
     Write-Host "Stopping Firefox Process" -ForegroundColor Yellow
 
     try{
