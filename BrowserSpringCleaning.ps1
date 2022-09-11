@@ -8,6 +8,10 @@
 ##################################
 ##################################
 
+#Error Action preference
+$ErrorActionPreference = 'SilentlyContinue'
+
+
 $challenge = Read-Host "Ready for a fresh spring cleaning of your browsers? 
 This will close and clean Internet Explorer, Chrome, Firefox & Edge (Y/N)"
 $challenge = $challenge.ToUpper()
@@ -43,39 +47,39 @@ elseif ($challenge -eq "Y"){
     Write-Host "Stopping Chrome Process" -ForegroundColor Yellow
 
     try{
-        Get-Process -ProcessName Chrome -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+        Get-Process -ProcessName Chrome  | Stop-Process -Force 
         Start-Sleep -Seconds 3
         Write-Host "Chrome Process Sucessfully Stopped" -ForegroundColor Green
     }
     
     catch{
-        echo $_
+        write-output $_
     }
 
     Write-Host "Clearing Chrome Cache" -ForegroundColor Yellow
     
     try{
-        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Cache" -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
-        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Cookies" -File -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
-        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Web Data" -File -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -ErrorAction SilentlyContinue
+        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Cache"  | Remove-Item -Confirm:$false 
+        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Cookies" -File  | Remove-Item -Confirm:$false 
+        Get-ChildItem -Path $env:LOCALAPPDATA"\Google\Chrome\User Data\Default\Web Data" -File  | Remove-Item -Confirm:$false 
         Write-Host "Chrome Cleaned" -ForegroundColor Green
     }
     
     catch{
-        echo $_
+        write-output $_
     }
  #Edge
     Write-Host "Stopping IE & Edge Process" -ForegroundColor Yellow
     
     try{
-        Get-Process -ProcessName MicrosoftEdge -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-        Get-Process -ProcessName MSEdge -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
-        Get-Process -ProcessName IExplore -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+        Get-Process -ProcessName MicrosoftEdge  | Stop-Process -Force 
+        Get-Process -ProcessName MSEdge  | Stop-Process -Force 
+        Get-Process -ProcessName IExplore  | Stop-Process -Force 
         Write-Host "Internet Explorer and Edge Processes Sucessfully Stopped" -ForegroundColor Green
     }
     
     catch{
-        echo $_
+        write-output $_
     }
 
     Write-Host "Clearing IE & Edge Cache" -ForegroundColor Yellow
@@ -88,36 +92,38 @@ elseif ($challenge -eq "Y"){
     }
     
     catch{
-        echo $_
+        write-output $_
     }
 #Firefox
     Write-Host "Stopping Firefox Process" -ForegroundColor Yellow
 
     try{
-        Get-Process -ProcessName Firefox -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue
+        Get-Process -ProcessName Firefox  | Stop-Process -Force 
         Start-Sleep -Seconds 3
         Write-Host "Firefox Process Sucessfully Stopped" -ForegroundColor Green
     }
     
     catch{
-        echo $_
+        write-output $_
     }
 
     Write-Host "Clearing Firefox Cache" -ForegroundColor Yellow
     
     try{
-        Get-ChildItem -Path $env:LOCALAPPDATA"\Mozilla\Firefox\Profiles\" -ErrorAction SilentlyContinue | Remove-Item -Confirm:$false -Recurse -ErrorAction SilentlyContinue
+        Get-ChildItem -Path $env:LOCALAPPDATA"\Mozilla\Firefox\Profiles\"  | Remove-Item -Confirm:$false -Recurse 
 
         Write-Host "Firefox Cleaned" -ForegroundColor Green
     }
 
     catch{
-        echo $_
+        write-output $_
     }
 
     Write-Host "Cleanup Complete..." -ForegroundColor Green
+    
 }
-
+write-host "Exiting script..."
+start-sleep -s 6
 else{
     Write-Host "Not a valid input, stopping script"
     Start-Sleep -s 6
