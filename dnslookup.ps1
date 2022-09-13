@@ -31,7 +31,8 @@ Try{
 }
 Catch{
     # Catch any error
-    Write-Output "$currentime,DNS failed,$fqdn" |out-string 
+    $trim = Write-Output "$currentime,DNS failed,$fqdn" |out-string 
+    $trim.trim() | out-file -FilePath $outdir\result.csv -Append
  
 }
 
