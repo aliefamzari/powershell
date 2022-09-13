@@ -132,6 +132,8 @@ Start-sleep 2
 Add-Type -AssemblyName System.Windows.Forms
 $FileBrowser = New-Object System.Windows.Forms.OpenFileDialog -Property @{ InitialDirectory = [Environment]::GetFolderPath('Desktop') }
 $null = $FileBrowser.ShowDialog()
+
+clear-host
 $trimpath = "$env:USERPROFILE\trim.txt"
 $resultpath = "$env:USERPROFILE\result.csv"
 $file = Get-Content $FileBrowser.FileName 
@@ -145,8 +147,8 @@ $results = @()
 
     $Password = New-RandomizedPassword -PasswordLength 12 -RequiresUppercase 3 -RequiresNumerical 2 
     $NewPwd = ConvertTo-SecureString $Password -AsPlainText -Force
-    Set-ADAccountPassword $user -NewPassword $NewPwd -Reset
-    Set-ADUser -Identity $user -ChangePasswordAtLogon $true
+    # Set-ADAccountPassword $user -NewPassword $NewPwd -Reset
+    # Set-ADUser -Identity $user -ChangePasswordAtLogon $true
     $results += write-output "$user,$password"
     write-host  $user -foregroundcolor Cyan -NoNewline; write-host "" $Password -foregroundcolor Green
     Start-Sleep 1
