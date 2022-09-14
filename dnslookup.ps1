@@ -36,3 +36,4 @@ Catch{
     $trim.trim() | out-file -FilePath $outdir -Append
  
 }
+Stop-Process -Id $PID
