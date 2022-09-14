@@ -147,8 +147,8 @@ $results = @()
 
     $Password = New-RandomizedPassword -PasswordLength 12 -RequiresUppercase 3 -RequiresNumerical 2 
     $NewPwd = ConvertTo-SecureString $Password -AsPlainText -Force
-    # Set-ADAccountPassword $user -NewPassword $NewPwd -Reset
-    # Set-ADUser -Identity $user -ChangePasswordAtLogon $true
+    Set-ADAccountPassword $user -NewPassword $NewPwd -Reset
+    Set-ADUser -Identity $user -ChangePasswordAtLogon $true
     $results += write-output "$user,$password"
     write-host  $user -foregroundcolor Cyan -NoNewline; write-host "" $Password -foregroundcolor Green
     Start-Sleep 1
