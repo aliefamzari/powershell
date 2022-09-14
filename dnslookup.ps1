@@ -1,5 +1,6 @@
-#author : Alif Amzari
-
+#author : Alif Amzari @orsted
+#Script to check if host is up or down. Intended to run using task scheduler with time interval.
+#Output will be save into CSV file.
 
 
 $csvheader = '"Time(UTC)","FQDN","ResolvedORFailed"'
